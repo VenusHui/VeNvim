@@ -268,19 +268,6 @@ return {
     end,
   },
 
-  -- 配置 blink.cmp 使用 LuaSnip
-  {
-    "saghen/blink.cmp",
-    opts = {
-      snippets = { preset = "luasnip" },
-      keymap = {
-        preset = "default",
-        ["<C-j>"] = { "select_next", "fallback" },
-        ["<C-k>"] = { "select_prev", "fallback" },
-      },
-    },
-  },
-
   -- 加载自定义代码片段
   {
     "L3MON4D3/LuaSnip",
