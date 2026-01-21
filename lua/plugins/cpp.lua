@@ -278,26 +278,8 @@ return {
         paths = { vim.fn.stdpath("config") .. "/lua/snippets" },
       })
 
-      -- 配置 Tab 键：在代码片段中跳转，否则正常缩进
-      vim.keymap.set("i", "<Tab>", function()
-        if ls.expand_or_jumpable() then
-          ls.expand_or_jump()
-        else
-          -- 不在代码片段中，使用 feedkeys 插入 Tab 字符用于缩进
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
-        end
-      end, { silent = true, desc = "LuaSnip: 跳转或缩进" })
-
-      vim.keymap.set("i", "<S-Tab>", function()
-        if ls.jumpable(-1) then
-          ls.jump(-1)
-        else
-          -- 不在代码片段中，使用 feedkeys 插入 Shift+Tab
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<S-Tab>", true, false, true), "n", false)
-        end
-      end, { silent = true, desc = "LuaSnip: 返回上一个位置" })
-
-      -- 选择模式下的映射
+      -- Tab/S-Tab 由 blink.cmp 统一处理（补全确认 + 代码片段跳转）
+      -- 选择模式下的映射（用于选中占位符后跳转）
       vim.keymap.set("s", "<Tab>", function()
         if ls.jumpable(1) then
           ls.jump(1)
