@@ -273,6 +273,14 @@ return {
     "L3MON4D3/LuaSnip",
     config = function()
       local ls = require("luasnip")
+      
+      -- 配置 LuaSnip：离开代码片段区域后自动停止跳转
+      ls.setup({
+        history = false, -- 不保留代码片段历史，避免跳回之前的片段
+        region_check_events = "CursorMoved", -- 光标移动时检查是否还在代码片段区域
+        delete_check_events = "TextChanged", -- 文本变化时检查代码片段是否被删除
+      })
+      
       -- 加载自定义 Lua snippets（LazyVim 已处理 friendly-snippets）
       require("luasnip.loaders.from_lua").lazy_load({
         paths = { vim.fn.stdpath("config") .. "/lua/snippets" },

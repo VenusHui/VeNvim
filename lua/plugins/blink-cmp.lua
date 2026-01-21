@@ -9,7 +9,7 @@ return {
         ["<C-j>"] = { "select_next", "fallback" },
         ["<C-k>"] = { "select_prev", "fallback" },
         -- Tab: 接受补全 -> 代码片段跳转 -> 正常缩进
-        ["<Tab>"] = { "accept", "snippet_forward", "fallback" },
+        ["<Tab>"] = { "snippet_forward", "accept", "fallback" },
         ["<S-Tab>"] = { "snippet_backward", "fallback" },
       },
       -- 命令行模式的补全配置
