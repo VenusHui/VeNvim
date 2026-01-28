@@ -3,7 +3,18 @@ return {
   {
     "saghen/blink.cmp",
     opts = {
-      snippets = { preset = "luasnip" },
+      snippets = {
+        preset = "luasnip",
+        -- 自定义展开函数：展开新代码片段前退出之前的所有代码片段
+        expand = function(snippet)
+          local ls = require("luasnip")
+          -- 退出所有活跃的代码片段
+          while ls.get_active_snip() do
+            ls.unlink_current()
+          end
+          ls.lsp_expand(snippet)
+        end,
+      },
       keymap = {
         preset = "default",
         ["<C-j>"] = { "select_next", "fallback" },
