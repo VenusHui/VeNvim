@@ -8,8 +8,10 @@ return {
         preset = "default",
         ["<C-j>"] = { "select_next", "fallback" },
         ["<C-k>"] = { "select_prev", "fallback" },
-        -- Tab: 接受补全 -> 代码片段跳转 -> 正常缩进
-        ["<Tab>"] = { "snippet_forward", "accept", "fallback" },
+        -- Enter: 接受补全（补全菜单可见时）
+        ["<CR>"] = { "accept", "fallback" },
+        -- Tab: 仅用于代码片段跳转
+        ["<Tab>"] = { "snippet_forward", "fallback" },
         ["<S-Tab>"] = { "snippet_backward", "fallback" },
       },
       -- 命令行模式的补全配置
