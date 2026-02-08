@@ -2,3 +2,4 @@
 require("config.lazy")
 require("plugins.avante")
 require("plugins.cpp")
+require("plugins.rust")
