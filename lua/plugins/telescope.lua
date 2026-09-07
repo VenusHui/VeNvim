@@ -4,18 +4,15 @@ return {
     -- 确保配置被正确合并
     opts.defaults = opts.defaults or {}
     opts.pickers = opts.pickers or {}
-    
+
     -- 在 defaults 中设置全局选项
     opts.defaults.hidden = true
-    opts.defaults.no_ignore = true
-    opts.defaults.no_ignore_parent = true
-    
+
     -- 在 find_files picker 中明确设置
     opts.pickers.find_files = opts.pickers.find_files or {}
     opts.pickers.find_files.hidden = true
-    opts.pickers.find_files.no_ignore = true
-    opts.pickers.find_files.no_ignore_parent = true
-    
+    opts.pickers.find_files.no_ignore = false
+
     -- 如果系统有 fd，使用它来获得更好的性能
     if vim.fn.executable("fd") == 1 then
       opts.pickers.find_files.find_command = {
@@ -23,7 +20,12 @@ return {
         "--type",
         "f",
         "--hidden",
-        "--no-ignore",
+        "--exclude",
+        ".git",
+        "--exclude",
+        "target",
+        "--exclude",
+        "build",
         "--strip-cwd-prefix",
       }
     elseif vim.fn.executable("rg") == 1 then
@@ -31,34 +33,22 @@ return {
         "rg",
         "--files",
         "--hidden",
-        "--no-ignore",
       }
-    else
-      -- 使用 find 命令，不通过 git，这样可以显示 gitignore 文件
-      opts.pickers.find_files.find_command = {
-        "find",
-        ".",
-        "-type",
-        "f",
-      }
-      -- 禁用 git_files，强制使用 find_files
-      opts.pickers.git_files = nil
     end
-    
+
     return opts
   end,
   keys = {
-    -- 覆盖默认的 <leader>ff，使用 find_files 而不是 git_files
+    -- 覆盖默认的 <leader>ff，包含隐藏文件但仍尊重 ignore 规则
     {
       "<leader>ff",
       function()
         require("telescope.builtin").find_files({
           hidden = true,
-          no_ignore = true,
-          no_ignore_parent = true,
+          no_ignore = false,
         })
       end,
-      desc = "Find Files (including gitignore)",
+      desc = "Find Files (including hidden)",
     },
     -- 添加一个使用 git_files 的备用 keymap（如果需要）
     {
